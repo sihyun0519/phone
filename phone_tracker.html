@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중고아이폰 매입/판매 장부</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .stats-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .table {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .table thead th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        .profit-positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .profit-negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        .status-purchased {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .status-sold {
+            background-color: #28a745;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-10">
+                <div class="main-container p-4">
+                    <!-- 헤더 -->
+                    <div class="text-center mb-4">
+                        <h1 class="display-4 fw-bold" style="color: #667eea;">
+                            <i class="fas fa-mobile-alt me-3"></i>
+                            중고아이폰 매입/판매 장부
+                        </h1>
+                        <p class="lead text-muted">매입부터 판매까지 모든 거래를 체계적으로 관리하세요</p>
+                        <div class="mt-2">
+                            <span id="syncStatus" class="badge bg-secondary">
+                                <i class="fas fa-cloud me-1"></i>로컬 저장소
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 통계 카드들 -->
+                    <div class="row mb-4">
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-chart-line fa-2x mb-2"></i>
+                                <h4 id="totalProfit">₩0</h4>
+                                <p class="mb-0">총 수익</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-calendar-alt fa-2x mb-2"></i>
+                                <h4 id="monthlyProfit">₩0</h4>
+                                <p class="mb-0">이번달 수익</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-calculator fa-2x mb-2"></i>
+                                <h4 id="totalPurchaseAmount">₩0</h4>
+                                <p class="mb-0">총 매입</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-boxes fa-2x mb-2"></i>
+                                <h4 id="totalItems">0</h4>
+                                <p class="mb-0">총 거래건수</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-warehouse fa-2x mb-2"></i>
+                                <h4 id="inventoryCount">0</h4>
+                                <p class="mb-0">재고 수량</p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-6 mb-3">
+                            <div class="stats-card text-center">
+                                <i class="fas fa-percentage fa-2x mb-2"></i>
+                                <h4 id="avgProfitRate">0%</h4>
+                                <p class="mb-0">평균 수익률</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 입력 폼 -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header text-white" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+                                    <h5 class="mb-0"><i class="fas fa-plus me-2"></i>새 거래 등록</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="transactionForm">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-3">
+                                                <label class="form-label">거래 유형</label>
+                                                <select class="form-select" id="transactionType" required>
+                                                    <option value="purchase">매입</option>
+                                                    <option value="sale">판매</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <label class="form-label">아이폰 모델</label>
+                                                <input type="text" class="form-control" id="phoneModel" placeholder="예: iPhone 14 Pro" required>
+                                            </div>
+                                            <div class="col-md-2 mb-3">
+                                                <label class="form-label">용량</label>
+                                                <input type="text" class="form-control" id="storage" placeholder="예: 128GB">
+                                            </div>
+                                            <div class="col-md-2 mb-3">
+                                                <label class="form-label">색상</label>
+                                                <input type="text" class="form-control" id="color" placeholder="예: 딥퍼플">
+                                            </div>
+                                            <div class="col-md-2 mb-3">
+                                                <label class="form-label">가격 (₩)</label>
+                                                <input type="number" class="form-control" id="price" placeholder="0" required>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label">거래일</label>
+                                                <input type="date" class="form-control" id="transactionDate" required>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label">거래처</label>
+                                                <input type="text" class="form-control" id="dealer" placeholder="거래처명">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label">메모</label>
+                                                <input type="text" class="form-control" id="memo" placeholder="특이사항">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="matchingSection" style="display: none;">
+                                            <div class="col-12">
+                                                <div class="alert alert-info">
+                                                    <h6><i class="fas fa-link me-2"></i>매입 매칭</h6>
+                                                    <p class="mb-2">이 판매와 매칭할 매입을 선택하세요:</p>
+                                                    <div id="matchingOptions"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-secondary me-2" onclick="cancelEdit()" id="cancelBtn" style="display: none;">
+                                                <i class="fas fa-times me-2"></i>취소
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i>저장
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 탭 네비게이션 -->
+                    <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
+                                <i class="fas fa-list me-2"></i>거래 내역
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab">
+                                <i class="fas fa-warehouse me-2"></i>재고 관리
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
+                                <i class="fas fa-chart-pie me-2"></i>수익률 분석
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- 탭 콘텐츠 -->
+                    <div class="tab-content" id="mainTabsContent">
+                        <!-- 거래 내역 탭 -->
+                        <div class="tab-pane fade show active" id="transactions" role="tabpanel">
+                            <!-- 필터 및 검색 -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                        <input type="text" class="form-control" id="searchInput" placeholder="모델명, 거래처, 메모로 검색...">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select" id="statusFilter">
+                                        <option value="all">전체</option>
+                                        <option value="purchase">매입</option>
+                                        <option value="sale">판매</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="recommendModel" placeholder="모델명 입력 (예: iPhone 14)">
+                                        <button class="btn btn-outline-info" type="button" onclick="showRecommendedPrice(document.getElementById('recommendModel').value)">
+                                            <i class="fas fa-calculator"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="btn-group w-100" role="group">
+                                        <button class="btn btn-outline-secondary" onclick="exportData()">
+                                            <i class="fas fa-download me-2"></i>내보내기
+                                        </button>
+                                        <button class="btn btn-outline-secondary" onclick="importData()">
+                                            <i class="fas fa-upload me-2"></i>가져오기
+                                        </button>
+                                        <button class="btn btn-outline-secondary" onclick="importFromURL()">
+                                            <i class="fas fa-link me-2"></i>URL
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 거래 목록 테이블 -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>날짜</th>
+                                            <th>유형</th>
+                                            <th>모델</th>
+                                            <th>용량</th>
+                                            <th>색상</th>
+                                            <th>가격</th>
+                                            <th>거래처</th>
+                                            <th>메모</th>
+                                            <th>수익</th>
+                                            <th>관리</th>
+                                            <th>판매</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transactionTableBody">
+                                        <!-- 거래 데이터가 여기에 동적으로 추가됩니다 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 재고 관리 탭 -->
+                        <div class="tab-pane fade" id="inventory" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                        <input type="text" class="form-control" id="inventorySearch" placeholder="재고 검색...">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex justify-content-end">
+                                        <span class="badge fs-6 p-2" style="background: linear-gradient(45deg, #667eea, #764ba2);">
+                                            총 재고 가치: <span id="totalInventoryValue">₩0</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>매입일</th>
+                                            <th>모델</th>
+                                            <th>용량</th>
+                                            <th>색상</th>
+                                            <th>매입가</th>
+                                            <th>거래처</th>
+                                            <th>보유기간</th>
+                                            <th>메모</th>
+                                            <th>관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inventoryTableBody">
+                                        <!-- 재고 데이터가 여기에 동적으로 추가됩니다 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 수익률 분석 탭 -->
+                        <div class="tab-pane fade" id="analytics" role="tabpanel">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-trophy me-2"></i>기종별 수익률 순위</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="modelProfitRanking">
+                                                <!-- 기종별 수익률 순위가 여기에 표시됩니다 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>월별 수익률 추이</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="monthlyProfitRate">
+                                                <!-- 월별 수익률이 여기에 표시됩니다 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="phone_tracker.js"></script>
+</body>
+</html> 
