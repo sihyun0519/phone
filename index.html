@@ -22,9 +22,38 @@
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stats-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .stats-card p {
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-card {
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            
+            .stats-card h4 {
+                font-size: 1rem;
+            }
+            
+            .stats-card p {
+                font-size: 0.7rem;
+            }
+            
+            .stats-card i {
+                font-size: 1.5rem !important;
+            }
         }
         .form-control, .form-select {
             border-radius: 10px;
@@ -101,6 +130,67 @@
                             </span>
                         </div>
                     </div>
+                    
+                    <style>
+                        @media (max-width: 768px) {
+                            .display-4 {
+                                font-size: 1.8rem !important;
+                            }
+                            
+                            .lead {
+                                font-size: 0.9rem !important;
+                            }
+                            
+                            .me-3 {
+                                margin-right: 0.5rem !important;
+                            }
+                            
+                            .container-fluid {
+                                padding-left: 10px !important;
+                                padding-right: 10px !important;
+                            }
+                            
+                            .main-container {
+                                padding: 15px !important;
+                            }
+                            
+                            .table {
+                                font-size: 0.8rem;
+                            }
+                            
+                            .btn-sm {
+                                padding: 0.25rem 0.5rem;
+                                font-size: 0.75rem;
+                            }
+                            
+                            .form-control, .form-select {
+                                font-size: 0.9rem;
+                            }
+                            
+                            .nav-tabs .nav-link {
+                                padding: 0.5rem 0.75rem;
+                                font-size: 0.8rem;
+                            }
+                        }
+                        
+                        @media (max-width: 576px) {
+                            .display-4 {
+                                font-size: 1.5rem !important;
+                            }
+                            
+                            .stats-card {
+                                padding: 10px;
+                            }
+                            
+                            .stats-card h4 {
+                                font-size: 0.9rem;
+                            }
+                            
+                            .table {
+                                font-size: 0.75rem;
+                            }
+                        }
+                    </style>
 
                     <!-- 통계 카드들 -->
                     <div class="row mb-4">
@@ -158,26 +248,26 @@
                                 <div class="card-body">
                                     <form id="transactionForm">
                                         <div class="row">
-                                            <div class="col-md-3 mb-3">
+                                            <div class="col-md-3 col-6 mb-3">
                                                 <label class="form-label">거래 유형</label>
                                                 <select class="form-select" id="transactionType" required>
                                                     <option value="purchase">매입</option>
                                                     <option value="sale">판매</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-3 mb-3">
+                                            <div class="col-md-3 col-6 mb-3">
                                                 <label class="form-label">아이폰 모델</label>
                                                 <input type="text" class="form-control" id="phoneModel" placeholder="예: iPhone 14 Pro" required>
                                             </div>
-                                            <div class="col-md-2 mb-3">
+                                            <div class="col-md-2 col-6 mb-3">
                                                 <label class="form-label">용량</label>
                                                 <input type="text" class="form-control" id="storage" placeholder="예: 128GB">
                                             </div>
-                                            <div class="col-md-2 mb-3">
+                                            <div class="col-md-2 col-6 mb-3">
                                                 <label class="form-label">색상</label>
                                                 <input type="text" class="form-control" id="color" placeholder="예: 딥퍼플">
                                             </div>
-                                            <div class="col-md-2 mb-3">
+                                            <div class="col-md-2 col-12 mb-3">
                                                 <label class="form-label">가격 (₩)</label>
                                                 <input type="number" class="form-control" id="price" placeholder="0" required>
                                             </div>
@@ -224,17 +314,17 @@
                     <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
-                                <i class="fas fa-list me-2"></i>거래 내역
+                                <i class="fas fa-list me-1"></i><span class="d-none d-sm-inline">거래 내역</span>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="inventory-tab" data-bs-toggle="tab" data-bs-target="#inventory" type="button" role="tab">
-                                <i class="fas fa-warehouse me-2"></i>재고 관리
+                                <i class="fas fa-warehouse me-1"></i><span class="d-none d-sm-inline">재고 관리</span>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
-                                <i class="fas fa-chart-pie me-2"></i>수익률 분석
+                                <i class="fas fa-chart-pie me-1"></i><span class="d-none d-sm-inline">수익률 분석</span>
                             </button>
                         </li>
                     </ul>
@@ -245,37 +335,37 @@
                         <div class="tab-pane fade show active" id="transactions" role="tabpanel">
                             <!-- 필터 및 검색 -->
                             <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-4 col-12 mb-2">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                                         <input type="text" class="form-control" id="searchInput" placeholder="모델명, 거래처, 메모로 검색...">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 col-6 mb-2">
                                     <select class="form-select" id="statusFilter">
                                         <option value="all">전체</option>
                                         <option value="purchase">매입</option>
                                         <option value="sale">판매</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-6 mb-2">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="recommendModel" placeholder="모델명 입력 (예: iPhone 14)">
+                                        <input type="text" class="form-control" id="recommendModel" placeholder="모델명 입력">
                                         <button class="btn btn-outline-info" type="button" onclick="showRecommendedPrice(document.getElementById('recommendModel').value)">
                                             <i class="fas fa-calculator"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-12 mb-2">
                                     <div class="btn-group w-100" role="group">
-                                        <button class="btn btn-outline-secondary" onclick="exportData()">
-                                            <i class="fas fa-download me-2"></i>내보내기
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="exportData()">
+                                            <i class="fas fa-download"></i>
                                         </button>
-                                        <button class="btn btn-outline-secondary" onclick="importData()">
-                                            <i class="fas fa-upload me-2"></i>가져오기
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="importData()">
+                                            <i class="fas fa-upload"></i>
                                         </button>
-                                        <button class="btn btn-outline-secondary" onclick="importFromURL()">
-                                            <i class="fas fa-link me-2"></i>URL
+                                        <button class="btn btn-outline-secondary btn-sm" onclick="importFromURL()">
+                                            <i class="fas fa-link"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -289,11 +379,11 @@
                                             <th>날짜</th>
                                             <th>유형</th>
                                             <th>모델</th>
-                                            <th>용량</th>
-                                            <th>색상</th>
+                                            <th class="d-none d-md-table-cell">용량</th>
+                                            <th class="d-none d-md-table-cell">색상</th>
                                             <th>가격</th>
-                                            <th>거래처</th>
-                                            <th>메모</th>
+                                            <th class="d-none d-md-table-cell">거래처</th>
+                                            <th class="d-none d-md-table-cell">메모</th>
                                             <th>수익</th>
                                             <th>관리</th>
                                             <th>판매</th>
