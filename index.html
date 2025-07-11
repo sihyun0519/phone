@@ -192,8 +192,9 @@
                             
                             /* 모바일에서 테이블 셀 내용을 더 명확하게 표시 */
                             .table td, .table th {
-                                padding: 0.5rem 0.25rem;
+                                padding: 0.3rem 0.15rem;
                                 vertical-align: middle;
+                                font-size: 0.75rem;
                             }
                             
                             /* 모바일에서 버튼 크기 조정 */
@@ -215,22 +216,35 @@
                             
                             /* 모바일에서 메모 텍스트 줄임 */
                             .memo-text {
-                                max-width: 80px;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                display: block;
-                                cursor: pointer;
-                            }
-                            
-                            /* 모바일에서 거래처 텍스트 줄임 */
-                            .dealer-text {
                                 max-width: 60px;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 white-space: nowrap;
                                 display: block;
                                 cursor: pointer;
+                                font-size: 0.7rem;
+                            }
+                            
+                            /* 모바일에서 거래처 텍스트 줄임 */
+                            .dealer-text {
+                                max-width: 50px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                display: block;
+                                cursor: pointer;
+                                font-size: 0.7rem;
+                            }
+                            
+                            /* 모바일에서 수익 텍스트 */
+                            .profit-positive, .profit-negative {
+                                font-size: 0.7rem;
+                                font-weight: bold;
+                                padding: 0.1rem 0.3rem;
+                                border-radius: 0.2rem;
+                                display: inline-block;
+                                min-width: 50px;
+                                text-align: center;
                             }
                             
                             /* 모바일에서 터치 시 전체 내용 표시 */
@@ -447,11 +461,11 @@
                                             <th class="d-none d-lg-table-cell">용량</th>
                                             <th class="d-none d-lg-table-cell">색상</th>
                                             <th>가격</th>
-                                            <th class="d-none d-md-table-cell">거래처</th>
-                                            <th class="d-none d-md-table-cell">메모</th>
-                                            <th class="d-none d-sm-table-cell">수익</th>
+                                            <th>거래처</th>
+                                            <th>메모</th>
+                                            <th>수익</th>
                                             <th>관리</th>
-                                            <th class="d-none d-sm-table-cell">판매</th>
+                                            <th>판매</th>
                                         </tr>
                                     </thead>
                                     <tbody id="transactionTableBody">
