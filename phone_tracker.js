@@ -525,11 +525,11 @@ function updateTable() {
                 </span>
             </td>
             <td>${transaction.model}</td>
-            <td>${transaction.storage || '-'}</td>
-            <td>${transaction.color || '-'}</td>
+            <td class="d-none d-md-table-cell">${transaction.storage || '-'}</td>
+            <td class="d-none d-md-table-cell">${transaction.color || '-'}</td>
             <td>${formatCurrency(transaction.price)}</td>
-            <td>${transaction.dealer || '-'}</td>
-            <td>${transaction.memo || '-'}</td>
+            <td class="d-none d-md-table-cell">${transaction.dealer || '-'}</td>
+            <td class="d-none d-md-table-cell">${transaction.memo || '-'}</td>
             <td class="${profitClass}">${profit ? formatCurrency(profit) : '-'}</td>
             <td>
                 <button class="btn btn-sm btn-outline-primary me-1" onclick="editTransaction(${transaction.id})">
