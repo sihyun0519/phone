@@ -189,6 +189,71 @@
                             .table {
                                 font-size: 0.75rem;
                             }
+                            
+                            /* 모바일에서 테이블 셀 내용을 더 명확하게 표시 */
+                            .table td, .table th {
+                                padding: 0.5rem 0.25rem;
+                                vertical-align: middle;
+                            }
+                            
+                            /* 모바일에서 버튼 크기 조정 */
+                            .btn-sm {
+                                padding: 0.2rem 0.4rem;
+                                font-size: 0.7rem;
+                            }
+                            
+                            /* 모바일에서 수익 표시 강조 */
+                            .profit-positive, .profit-negative {
+                                font-size: 0.8rem;
+                                font-weight: bold;
+                                padding: 0.2rem 0.4rem;
+                                border-radius: 0.25rem;
+                                display: inline-block;
+                                min-width: 60px;
+                                text-align: center;
+                            }
+                            
+                            /* 모바일에서 메모 텍스트 줄임 */
+                            .memo-text {
+                                max-width: 80px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                display: block;
+                                cursor: pointer;
+                            }
+                            
+                            /* 모바일에서 거래처 텍스트 줄임 */
+                            .dealer-text {
+                                max-width: 60px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                display: block;
+                                cursor: pointer;
+                            }
+                            
+                            /* 모바일에서 터치 시 전체 내용 표시 */
+                            .memo-text:hover, .dealer-text:hover {
+                                background-color: rgba(102, 126, 234, 0.1);
+                                border-radius: 4px;
+                                padding: 2px 4px;
+                            }
+                            
+                            /* 모바일에서 수익 정보 강조 */
+                            .mobile-profit-highlight {
+                                background: linear-gradient(45deg, #28a745, #20c997);
+                                color: white;
+                                padding: 0.5rem;
+                                border-radius: 0.5rem;
+                                margin-bottom: 0.5rem;
+                                text-align: center;
+                                font-weight: bold;
+                            }
+                            
+                            .mobile-profit-negative {
+                                background: linear-gradient(45deg, #dc3545, #fd7e14);
+                            }
                         }
                     </style>
 
@@ -379,20 +444,34 @@
                                             <th>날짜</th>
                                             <th>유형</th>
                                             <th>모델</th>
-                                            <th class="d-none d-md-table-cell">용량</th>
-                                            <th class="d-none d-md-table-cell">색상</th>
+                                            <th class="d-none d-lg-table-cell">용량</th>
+                                            <th class="d-none d-lg-table-cell">색상</th>
                                             <th>가격</th>
                                             <th class="d-none d-md-table-cell">거래처</th>
                                             <th class="d-none d-md-table-cell">메모</th>
-                                            <th>수익</th>
+                                            <th class="d-none d-sm-table-cell">수익</th>
                                             <th>관리</th>
-                                            <th>판매</th>
+                                            <th class="d-none d-sm-table-cell">판매</th>
                                         </tr>
                                     </thead>
                                     <tbody id="transactionTableBody">
                                         <!-- 거래 데이터가 여기에 동적으로 추가됩니다 -->
                                     </tbody>
                                 </table>
+                            </div>
+                            
+                            <!-- 모바일용 수익 요약 -->
+                            <div class="d-block d-sm-none mt-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>모바일 수익 요약</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="mobileProfitSummary">
+                                            <!-- 모바일에서 수익 정보가 여기에 표시됩니다 -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
